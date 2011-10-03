@@ -1,0 +1,45 @@
+NAME
+
+Repaint
+
+
+DESCRIPTION
+
+Change a color in the video stream in real time.
+
+
+VERSION
+
+0.0.0 - AKA Boulder Android Contest Hack
+
+
+TODO
+
+- Put back repaint mechanism
+- Minimize use of globals
+- Fix ratio for all phones
+- Use VBO
+- Avoid branches in shaders (multiply shaders)
+- Swipe to switch
+- Add UI element to switch between modes (H, S, L)
+- Add spectrum to show where the user is
+- Add Saturation modification
+- Add Lightness modification
+- Allow comparison screenshot
+- Settings screen (to modify step and threshold values)
+- iOS version
+
+
+DONE
+
+- Hack it
+
+
+INFO
+
+- Author:	Remi Chaignon
+
+
+LINKS
+
+...	
