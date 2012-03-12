@@ -152,18 +152,30 @@ void Java_remi_chaignon_repaint_NativeInterface_destroy(JNIEnv *env, jobject sel
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void createTargetObject();
+void createScreenObject();
+void createObjects();
+
+void createLuminanceTexture();
+void createChrominanceTexture();
+void createTargetTexture();
+void createTextures();
+
+void createFramebuffers();
+void createBuffers();
+
+void createFrameShader();
+void createRepaintShader();
+void createScreenShader();
+void createShaders();
+
 void getScreenBuffer();
 void bindOffScreenBuffer();
 void bindOnScreenBuffer();
 
-void createTextures();
-void createBuffers();
-void createShaders();
-
-void renderOffScreen();
-void renderOnScreen();
-
-void renderSimpleFrame();
+void renderFrame();
+void renderRepaint();
+void renderScreen();
 
 void read();
 

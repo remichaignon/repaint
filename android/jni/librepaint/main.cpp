@@ -159,23 +159,23 @@ void Java_remi_chaignon_repaint_NativeInterface_render(JNIEnv *env, jobject self
 				doRight = false;
 			}
 		}
-
+*/
 		getScreenBuffer();
 
 		bindOffScreenBuffer();
-		renderOffScreen();
-
+		renderRepaint();
+/*
 		if(hasBeenTouched)
 		{
 			hasBeenTouched = false;
 
 			read();
 		}
-
-		bindOnScreenBuffer();
-		renderOnScreen();
 */
-		renderSimpleFrame();
+		bindOnScreenBuffer();
+		renderScreen();
+
+//		renderFrame();
 	}
 }
 
@@ -399,7 +399,7 @@ void createShaders()
 
 
 	// Use program
-	glUseProgram(programIds[SHADER_REPAINT]); GL();
+	glUseProgram(programIds[SHADER_SCREEN]); GL();
 
 	// Set uniforms
 	glUniform1i(repaintUniforms[SCREEN_UNIFORM_TEXTURE], 0); GL();
@@ -412,12 +412,12 @@ void createShaders()
 
 //
 //
-void renderOffScreen()
+void renderRepaint()
 {
-	LOGV("[JNI::renderOffScreen]");
+	LOGV("[JNI::renderRepaint]");
 
 	// Clear
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); GL();
+	glClearColor(0.0f, 1.0f, 0.0f, 0.0f); GL();
 	glClear(GL_COLOR_BUFFER_BIT); GL();
 
 
@@ -431,8 +431,8 @@ void renderOffScreen()
 	glEnableVertexAttribArray(REPAINT_ATTRIBUTE_TEXTURECOORDINATE); GL();
 
 	// Load the vertex position
-	glVertexAttribPointer(REPAINT_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(frameVertices)); GL();
-	glVertexAttribPointer(REPAINT_ATTRIBUTE_TEXTURECOORDINATE, 2, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(frameVertices + FRAME_VERTICES_OFFSET)); GL();
+	glVertexAttribPointer(REPAINT_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(FRAME_VERTICES_OFFSET)); GL();
+	glVertexAttribPointer(REPAINT_ATTRIBUTE_TEXTURECOORDINATE, 2, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(FRAME_TEXCOORD_OFFSET)); GL();
 
 	// Draw
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, frameIndices); GL();
@@ -445,12 +445,12 @@ void renderOffScreen()
 
 //
 //
-void renderOnScreen()
+void renderScreen()
 {
-	LOGV("[JNI::renderOnScreen]");
+	LOGV("[JNI::renderScreen]");
 
 	// Clear
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); GL();
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f); GL();
 	glClear(GL_COLOR_BUFFER_BIT); GL();
 
 
@@ -464,8 +464,8 @@ void renderOnScreen()
 	glEnableVertexAttribArray(SCREEN_ATTRIBUTE_TEXTURECOORDINATE); GL();
 
 	// Load the vertex position
-	glVertexAttribPointer(SCREEN_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, SCREEN_VERTICES_STRIDE, BUFFER_OFFSET(screenVertices)); GL();
-	glVertexAttribPointer(SCREEN_ATTRIBUTE_TEXTURECOORDINATE, 2, GL_FLOAT, GL_FALSE, SCREEN_VERTICES_STRIDE, BUFFER_OFFSET(screenVertices + SCREEN_VERTICES_OFFSET)); GL();
+	glVertexAttribPointer(SCREEN_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, SCREEN_VERTICES_STRIDE, BUFFER_OFFSET(SCREEN_VERTICES_OFFSET)); GL();
+	glVertexAttribPointer(SCREEN_ATTRIBUTE_TEXTURECOORDINATE, 2, GL_FLOAT, GL_FALSE, SCREEN_VERTICES_STRIDE, BUFFER_OFFSET(SCREEN_TEXCOORD_OFFSET)); GL();
 
 	// Draw
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, screenIndices); GL();
@@ -478,9 +478,9 @@ void renderOnScreen()
 
 //
 //
-void renderSimpleFrame()
+void renderFrame()
 {
-	LOGV("[JNI::renderSimpleFrame]");
+	LOGV("[JNI::renderFrame]");
 
 	// Clear
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); GL();
@@ -494,8 +494,8 @@ void renderSimpleFrame()
 	glEnableVertexAttribArray(FRAME_ATTRIBUTE_TEXTURECOORDINATE); GL();
 
 	// Load the vertex position
-	glVertexAttribPointer(FRAME_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(frameVertices)); GL();
-	glVertexAttribPointer(FRAME_ATTRIBUTE_TEXTURECOORDINATE, 2, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(&frameVertices[3])); GL();
+	glVertexAttribPointer(FRAME_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(FRAME_VERTICES_OFFSET)); GL();
+	glVertexAttribPointer(FRAME_ATTRIBUTE_TEXTURECOORDINATE, 2, GL_FLOAT, GL_FALSE, FRAME_VERTICES_STRIDE, BUFFER_OFFSET(FRAME_TEXCOORD_OFFSET)); GL();
 
 	// Draw
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, frameIndices); GL();
